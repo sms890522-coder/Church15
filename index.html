@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>더테이블교회 | The Table Church</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+
+  <style>
+    :root {
+      --ink: #111111;
+      --paper: #f4efe4;
+      --white: #fffdf7;
+      --muted: #6c665e;
+      --red: #c83e2d;
+      --blue: #1e3d59;
+      --line: rgba(17, 17, 17, 0.22);
+      --heavy: #111111;
+      --shadow: 12px 12px 0 #111111;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Pretendard, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    .page-frame {
+      width: min(1440px, calc(100% - 28px));
+      margin: 14px auto;
+      border: 2px solid var(--heavy);
+      background: var(--white);
+      min-height: calc(100vh - 28px);
+      position: relative;
+    }
+
+    .topline {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--white);
+      border-bottom: 2px solid var(--heavy);
+    }
+
+    .masthead {
+      display: grid;
+      grid-template-columns: 220px 1fr 220px;
+      align-items: center;
+      min-height: 92px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .issue {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      border-right: 1px solid var(--line);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .brand {
+      text-align: center;
+      font-size: clamp(34px, 6vw, 76px);
+      line-height: 0.86;
+      letter-spacing: -0.095em;
+      font-weight: 950;
+      padding: 16px 8px;
+    }
+
+    .sunday {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      border-left: 1px solid var(--line);
+      text-align: center;
+      font-weight: 950;
+      color: var(--red);
+      letter-spacing: -0.03em;
+    }
+
+    .nav-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      border-bottom: 2px solid var(--heavy);
+    }
+
+    .nav-row a {
+      padding: 14px 18px;
+      border-right: 1px solid var(--line);
+      font-size: 14px;
+      font-weight: 900;
+      transition: 0.18s ease;
+    }
+
+    .nav-row a:first-child {
+      border-left: 1px solid var(--line);
+    }
+
+    .nav-row a:hover {
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    .hero {
+      min-height: 760px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      border-bottom: 2px solid var(--heavy);
+    }
+
+    .hero-left {
+      padding: clamp(28px, 5vw, 72px);
+      border-right: 2px solid var(--heavy);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background:
+        linear-gradient(rgba(255,253,247,0.8), rgba(255,253,247,0.92)),
+        radial-gradient(circle at 20% 0%, rgba(200,62,45,0.18), transparent 32%);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      padding: 8px 10px;
+      border: 2px solid var(--heavy);
+      background: var(--red);
+      color: var(--white);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      font-weight: 950;
+    }
+
+    h1 {
+      margin: 36px 0 26px;
+      font-size: clamp(58px, 10vw, 138px);
+      line-height: 0.82;
+      letter-spacing: -0.12em;
+      font-weight: 950;
+    }
+
+    .hero-copy {
+      max-width: 720px;
+      font-size: 20px;
+      line-height: 1.75;
+      color: #3a362f;
+      font-weight: 520;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 34px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 20px;
+      border: 2px solid var(--heavy);
+      background: var(--white);
+      font-weight: 950;
+      transition: 0.18s ease;
+    }
+
+    .btn.primary {
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    .btn:hover {
+      transform: translate(-4px, -4px);
+      box-shadow: 6px 6px 0 var(--red);
+    }
+
+    .ticker {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      border: 2px solid var(--heavy);
+      margin-top: 42px;
+      background: var(--white);
+    }
+
+    .ticker b {
+      padding: 14px;
+      border-right: 2px solid var(--heavy);
+      background: var(--ink);
+      color: var(--white);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+    }
+
+    .ticker span {
+      padding: 14px;
+      overflow: hidden;
+      white-space: nowrap;
+      font-weight: 800;
+      color: var(--red);
+    }
+
+    .hero-right {
+      display: grid;
+      grid-template-rows: 1fr auto;
+      min-width: 0;
+    }
+
+    .cover-photo {
+      min-height: 560px;
+      background:
+        linear-gradient(180deg, rgba(17,17,17,0.05), rgba(17,17,17,0.42)),
+        url("https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&w=1400&q=80") center/cover;
+      filter: grayscale(0.2) contrast(1.08);
+    }
+
+    .cover-caption {
+      border-top: 2px solid var(--heavy);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .caption-cell {
+      padding: 24px;
+      min-height: 150px;
+      border-right: 1px solid var(--line);
+    }
+
+    .caption-cell:last-child {
+      border-right: 0;
+    }
+
+    .caption-cell small {
+      display: block;
+      color: var(--red);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      font-weight: 950;
+      margin-bottom: 12px;
+    }
+
+    .caption-cell b {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: -0.06em;
+    }
+
+    .section {
+      border-bottom: 2px solid var(--heavy);
+      scroll-margin-top: 160px;
+    }
+
+    .section-header {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      border-bottom: 2px solid var(--heavy);
+    }
+
+    .section-number {
+      padding: 28px;
+      border-right: 2px solid var(--heavy);
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      font-weight: 950;
+      color: var(--red);
+    }
+
+    .section-title {
+      padding: 24px 28px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(38px, 6vw, 82px);
+      line-height: 0.9;
+      letter-spacing: -0.1em;
+      font-weight: 950;
+    }
+
+    .section-title p {
+      max-width: 760px;
+      margin: 16px 0 0;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 17px;
+    }
+
+    .manifesto-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .manifesto-card {
+      min-height: 330px;
+      padding: 28px;
+      border-right: 1px solid var(--line);
+      background: var(--white);
+      transition: 0.18s ease;
+    }
+
+    .manifesto-card:last-child {
+      border-right: 0;
+    }
+
+    .manifesto-card:hover {
+      background: #f2eadc;
+    }
+
+    .manifesto-card span {
+      display: block;
+      color: var(--red);
+      font-size: 14px;
+      font-weight: 950;
+      margin-bottom: 80px;
+    }
+
+    .manifesto-card h3 {
+      margin: 0 0 12px;
+      font-size: 30px;
+      line-height: 1.02;
+      letter-spacing: -0.075em;
+      font-weight: 950;
+    }
+
+    .manifesto-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.72;
+    }
+
+    .article-layout {
+      display: grid;
+      grid-template-columns: 0.88fr 1.12fr;
+      min-height: 620px;
+    }
+
+    .article-photo {
+      border-right: 2px solid var(--heavy);
+      background:
+        linear-gradient(180deg, rgba(17,17,17,0.02), rgba(17,17,17,0.32)),
+        url("https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=80") center/cover;
+      filter: grayscale(0.15);
+    }
+
+    .article-copy {
+      padding: clamp(32px, 5vw, 70px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .pullquote {
+      font-size: clamp(36px, 5.4vw, 76px);
+      line-height: 1.02;
+      letter-spacing: -0.095em;
+      font-weight: 950;
+      margin-bottom: 26px;
+    }
+
+    .article-copy p {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.9;
+      max-width: 720px;
+    }
+
+    .pastor {
+      display: grid;
+      grid-template-columns: 0.75fr 1.25fr;
+      min-height: 660px;
+    }
+
+    .pastor-photo {
+      border-right: 2px solid var(--heavy);
+      background:
+        linear-gradient(180deg, rgba(17,17,17,0.02), rgba(17,17,17,0.3)),
+        url("https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?auto=format&fit=crop&w=1000&q=80") center/cover;
+      filter: grayscale(0.2) contrast(1.05);
+    }
+
+    .pastor-text {
+      padding: clamp(34px, 5vw, 72px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .pastor-text p {
+      max-width: 760px;
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: 18px;
+    }
+
+    .sign {
+      margin-top: 26px;
+      font-size: 24px;
+      font-weight: 950;
+      color: var(--red);
+    }
+
+    .worship-board {
+      display: grid;
+      border-top: 0;
+    }
+
+    .worship-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 240px;
+      border-bottom: 1px solid var(--line);
+      align-items: center;
+    }
+
+    .worship-row:last-child {
+      border-bottom: 0;
+    }
+
+    .worship-row > div {
+      padding: 26px 30px;
+      border-right: 1px solid var(--line);
+    }
+
+    .worship-row > div:last-child {
+      border-right: 0;
+    }
+
+    .day {
+      color: var(--red);
+      font-size: 26px;
+      font-weight: 950;
+    }
+
+    .worship-name {
+      font-size: 34px;
+      letter-spacing: -0.075em;
+      font-weight: 950;
+    }
+
+    .time {
+      text-align: right;
+      font-size: 22px;
+      color: var(--blue);
+      font-weight: 950;
+    }
+
+    .media-layout {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      min-height: 520px;
+    }
+
+    .youtube {
+      border-right: 2px solid var(--heavy);
+      background: #111;
+      aspect-ratio: 16 / 9;
+      min-height: 520px;
+    }
+
+    .youtube iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .notice-board {
+      display: grid;
+    }
+
+    .notice {
+      display: block;
+      padding: 26px;
+      border-bottom: 1px solid var(--line);
+      transition: 0.18s ease;
+    }
+
+    .notice:last-child {
+      border-bottom: 0;
+    }
+
+    .notice:hover {
+      background: #f2eadc;
+    }
+
+    .notice small {
+      display: block;
+      color: var(--red);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      font-weight: 950;
+      margin-bottom: 12px;
+    }
+
+    .notice b {
+      display: block;
+      font-size: 23px;
+      letter-spacing: -0.055em;
+      line-height: 1.15;
+    }
+
+    .location-layout {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      min-height: 560px;
+    }
+
+    .map {
+      border-right: 2px solid var(--heavy);
+      background: #ddd;
+    }
+
+    .map iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .location-copy {
+      padding: clamp(34px, 5vw, 64px);
+      background: var(--ink);
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .location-copy h3 {
+      margin: 0 0 18px;
+      font-size: clamp(42px, 5vw, 70px);
+      line-height: 0.95;
+      letter-spacing: -0.09em;
+    }
+
+    .location-copy p {
+      color: rgba(255,255,255,0.72);
+      line-height: 1.86;
+      font-size: 17px;
+    }
+
+    .location-copy .btn {
+      width: fit-content;
+      background: var(--white);
+      color: var(--ink);
+      margin-top: 18px;
+    }
+
+    footer {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 2px solid var(--heavy);
+      background: var(--ink);
+      color: rgba(255,255,255,0.74);
+    }
+
+    footer div {
+      padding: 34px;
+      border-right: 1px solid rgba(255,255,255,0.18);
+      line-height: 1.7;
+    }
+
+    footer div:last-child {
+      border-right: 0;
+      text-align: right;
+    }
+
+    footer b {
+      color: var(--white);
+      font-size: 24px;
+      letter-spacing: -0.05em;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: 0.68s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+    }
+
+    @media (max-width: 1020px) {
+      .page-frame {
+        width: calc(100% - 16px);
+        margin: 8px auto;
+      }
+
+      .masthead {
+        grid-template-columns: 1fr auto;
+        min-height: 82px;
+      }
+
+      .issue,
+      .sunday {
+        display: none;
+      }
+
+      .brand {
+        text-align: left;
+        padding-left: 18px;
+        font-size: 34px;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+        margin-right: 14px;
+        border: 2px solid var(--ink);
+        background: var(--white);
+        padding: 10px 14px;
+        font-weight: 950;
+      }
+
+      .nav-row {
+        display: none;
+      }
+
+      .nav-row.open {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .nav-row.open a {
+        border-bottom: 1px solid var(--line);
+        text-align: center;
+      }
+
+      .hero,
+      .article-layout,
+      .pastor,
+      .media-layout,
+      .location-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-left,
+      .article-photo,
+      .pastor-photo,
+      .youtube,
+      .map {
+        border-right: 0;
+        border-bottom: 2px solid var(--heavy);
+      }
+
+      .manifesto-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .manifesto-card:nth-child(2) {
+        border-right: 0;
+      }
+
+      .manifesto-card:nth-child(1),
+      .manifesto-card:nth-child(2) {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .cover-photo {
+        min-height: 460px;
+      }
+
+      .article-photo,
+      .pastor-photo {
+        min-height: 460px;
+      }
+
+      .youtube {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .brand {
+        font-size: 26px;
+      }
+
+      h1 {
+        font-size: 58px;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-left {
+        padding: 28px;
+      }
+
+      .ticker {
+        grid-template-columns: 1fr;
+      }
+
+      .ticker b {
+        border-right: 0;
+        border-bottom: 2px solid var(--heavy);
+      }
+
+      .cover-caption {
+        grid-template-columns: 1fr;
+      }
+
+      .caption-cell {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .caption-cell:last-child {
+        border-bottom: 0;
+      }
+
+      .section-header {
+        grid-template-columns: 1fr;
+      }
+
+      .section-number {
+        border-right: 0;
+        border-bottom: 2px solid var(--heavy);
+      }
+
+      .manifesto-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .manifesto-card {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .manifesto-card:last-child {
+        border-bottom: 0;
+      }
+
+      .manifesto-card span {
+        margin-bottom: 50px;
+      }
+
+      .worship-row {
+        grid-template-columns: 1fr;
+      }
+
+      .worship-row > div {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .worship-row > div:last-child {
+        border-bottom: 0;
+      }
+
+      .time {
+        text-align: left;
+      }
+
+      footer {
+        grid-template-columns: 1fr;
+      }
+
+      footer div,
+      footer div:last-child {
+        text-align: left;
+        border-right: 0;
+        border-bottom: 1px solid rgba(255,255,255,0.18);
+      }
+
+      footer div:last-child {
+        border-bottom: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-frame">
+    <header class="topline">
+      <div class="masthead">
+        <div class="issue">
+          VOL. 2026<br>
+          THE TABLE WEEKLY
+        </div>
+
+        <a href="#home" class="brand">더테이블교회</a>
+
+        <button class="mobile-menu-btn" type="button" onclick="toggleMenu()">MENU</button>
+
+        <div class="sunday">
+          SUNDAY<br>
+          11:00 AM
+        </div>
+      </div>
+
+      <nav class="nav-row" id="menu">
+        <a href="#about" onclick="closeMenu()">교회소개</a>
+        <a href="#vision" onclick="closeMenu()">교회비전</a>
+        <a href="#pastor" onclick="closeMenu()">담임목사</a>
+        <a href="#worship" onclick="closeMenu()">예배안내</a>
+        <a href="#media" onclick="closeMenu()">교회유튜브</a>
+        <a href="#notice" onclick="closeMenu()">공지사항</a>
+        <a href="#location" onclick="closeMenu()">오시는 길</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="hero-left">
+          <div class="reveal">
+            <span class="eyebrow">A CHURCH AROUND THE TABLE</span>
+            <h1>함께 앉아<br>은혜를<br>나누는 교회</h1>
+            <p class="hero-copy">
+              더테이블교회는 예배와 말씀, 식탁의 교제와 삶의 나눔을 통해
+              복음이 일상 속에서 살아 움직이도록 돕는 공동체입니다.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn primary" href="#worship">예배 시간 보기</a>
+              <a class="btn" href="#location">처음 오셨나요?</a>
+            </div>
+          </div>
+
+          <div class="ticker reveal">
+            <b>THIS WEEK</b>
+            <span>주일예배 11:00 · 새가족 환영 모임 · 다음세대 예배 · 공동식탁 모임 안내</span>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="cover-photo"></div>
+          <div class="cover-caption">
+            <div class="caption-cell">
+              <small>NEXT WORSHIP</small>
+              <b>주일예배<br>오전 11:00</b>
+            </div>
+            <div class="caption-cell">
+              <small>SERMON</small>
+              <b>식탁에서<br>만나는 은혜</b>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="about">
+        <div class="section-header">
+          <div class="section-number">SECTION 01</div>
+          <div class="section-title">
+            <h2>교회소개</h2>
+            <p>
+              더테이블교회는 한 사람의 삶을 소중히 여기며, 예배와 말씀,
+              공동체의 식탁 안에서 하나님의 은혜를 함께 경험하는 교회입니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="manifesto-grid reveal">
+          <div class="manifesto-card">
+            <span>01</span>
+            <h3>예배의 식탁</h3>
+            <p>하나님의 임재 앞에 함께 앉아 예배하는 공동체입니다.</p>
+          </div>
+          <div class="manifesto-card">
+            <span>02</span>
+            <h3>말씀의 식탁</h3>
+            <p>성경의 진리가 오늘의 삶에 적용되도록 배우고 나눕니다.</p>
+          </div>
+          <div class="manifesto-card">
+            <span>03</span>
+            <h3>교제의 식탁</h3>
+            <p>처음 온 분도 편안히 머물 수 있는 환대의 문화를 세웁니다.</p>
+          </div>
+          <div class="manifesto-card">
+            <span>04</span>
+            <h3>섬김의 식탁</h3>
+            <p>지역과 이웃을 향해 복음의 사랑을 실제로 흘려보냅니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="vision">
+        <div class="section-header">
+          <div class="section-number">SECTION 02</div>
+          <div class="section-title">
+            <h2>교회비전</h2>
+            <p>
+              우리는 더 크고 화려한 교회보다, 더 깊고 따뜻한 교회를 꿈꿉니다.
+              예배의 은혜가 가정과 일터, 도시와 다음세대로 흘러가게 합니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="article-layout">
+          <div class="article-photo"></div>
+          <div class="article-copy reveal">
+            <div class="pullquote">
+              복음은 강단에서 시작되어 식탁과 일상으로 흘러갑니다.
+            </div>
+            <p>
+              더테이블교회는 주일의 감동에 머무르지 않고, 삶의 자리에서 복음을 살아내는
+              성도들을 세워갑니다. 가정에서, 학교에서, 일터에서, 지역사회에서 예수님의 사랑이
+              실제가 되도록 함께 기도하고 훈련합니다.
+            </p>
+            <div class="hero-actions">
+              <a class="btn primary" href="#worship">예배 안내</a>
+              <a class="btn" href="#media">설교 보기</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="pastor">
+        <div class="section-header">
+          <div class="section-number">SECTION 03</div>
+          <div class="section-title">
+            <h2>담임목사 인사말</h2>
+            <p>
+              더테이블교회 홈페이지를 방문해주신 여러분을 진심으로 환영합니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="pastor">
+          <div class="pastor-photo"></div>
+          <div class="pastor-text reveal">
+            <div class="pullquote">
+              “교회는 완벽한 사람들이 아니라, 은혜가 필요한 사람들이 함께 앉는 식탁입니다.”
+            </div>
+            <p>
+              이곳에서 예배의 기쁨을 회복하고, 말씀 안에서 삶의 방향을 발견하며,
+              공동체 안에서 다시 일어나는 은혜를 경험하시길 축복합니다.
+              더테이블교회는 여러분의 이야기를 환대하고 함께 걷겠습니다.
+            </p>
+            <div class="sign">담임목사 김테이블</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="worship">
+        <div class="section-header">
+          <div class="section-number">SECTION 04</div>
+          <div class="section-title">
+            <h2>예배안내</h2>
+            <p>
+              모든 예배는 누구에게나 열려 있습니다. 처음 방문하시는 분도 편안하게 함께하실 수 있습니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="worship-board reveal">
+          <div class="worship-row">
+            <div class="day">SUN</div>
+            <div class="worship-name">주일 1부 예배</div>
+            <div class="time">오전 9:00</div>
+          </div>
+          <div class="worship-row">
+            <div class="day">SUN</div>
+            <div class="worship-name">주일 2부 예배</div>
+            <div class="time">오전 11:00</div>
+          </div>
+          <div class="worship-row">
+            <div class="day">WED</div>
+            <div class="worship-name">수요기도회</div>
+            <div class="time">오후 7:30</div>
+          </div>
+          <div class="worship-row">
+            <div class="day">DAWN</div>
+            <div class="worship-name">새벽기도회</div>
+            <div class="time">화-금 오전 5:30</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="media">
+        <div class="section-header">
+          <div class="section-number">SECTION 05</div>
+          <div class="section-title">
+            <h2>교회유튜브 · 공지사항</h2>
+            <p>주일설교와 찬양, 교회 소식을 한 곳에서 확인하세요.</p>
+          </div>
+        </div>
+
+        <div class="media-layout reveal">
+          <div class="youtube">
+            <iframe src="https://www.youtube.com/embed/live_stream?channel=UC_x5XG1OV2P6uZZ5FSM9Ttw" allowfullscreen></iframe>
+          </div>
+
+          <div class="notice-board" id="notice">
+            <a href="#" class="notice">
+              <small>2026.04.27</small>
+              <b>새가족 환영 모임 안내</b>
+            </a>
+            <a href="#" class="notice">
+              <small>2026.04.20</small>
+              <b>공동식탁 모임 신청</b>
+            </a>
+            <a href="#" class="notice">
+              <small>2026.04.13</small>
+              <b>다음세대 여름수련회 신청</b>
+            </a>
+            <a href="#" class="notice">
+              <small>2026.04.06</small>
+              <b>주일 차량 운행 시간 변경</b>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="location">
+        <div class="section-header">
+          <div class="section-number">SECTION 06</div>
+          <div class="section-title">
+            <h2>오시는 길</h2>
+            <p>처음 방문하시는 분도 편안히 오실 수 있도록 안내합니다.</p>
+          </div>
+        </div>
+
+        <div class="location-layout">
+          <div class="map reveal">
+            <iframe src="https://maps.google.com/maps?q=Seoul%20Korea&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+          </div>
+
+          <div class="location-copy reveal">
+            <h3>더테이블교회</h3>
+            <p>
+              주소: 서울특별시 은평구 은혜로 123<br>
+              전화: 02-123-4567<br>
+              이메일: church@example.com
+            </p>
+            <a class="btn" href="#worship">예배 시간 확인</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>
+        <b>더테이블교회</b><br>
+        The Table Church
+      </div>
+      <div>
+        Copyright © 2026 The Table Church.<br>
+        All rights reserved.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("open");
+    }
+
+    function closeMenu() {
+      document.getElementById("menu").classList.remove("open");
+    }
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".reveal").forEach((el) => {
+      revealObserver.observe(el);
+    });
+  </script>
+</body>
+</html>
